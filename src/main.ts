@@ -8,6 +8,7 @@ import TaskListView from './views/task/TaskListView.vue'
 import Dashboard from './views/monitor/Dashboard.vue'
 import WorkflowListView from './views/workflow/WorkflowListView.vue'
 import AlarmConfigView from './views/alarm/AlarmConfigView.vue'
+import MessageQueueView from './views/message/MessageQueueView.vue'
 import type { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
@@ -16,7 +17,8 @@ const routes: RouteRecordRaw[] = [
   { path: '/task', component: TaskListView, meta: { requiresAuth: true } },
   { path: '/workflow', component: WorkflowListView, meta: { requiresAuth: true } },
   { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
-  { path: '/alarm', component: AlarmConfigView, meta: { requiresAuth: true } }
+  { path: '/alarm', component: AlarmConfigView, meta: { requiresAuth: true } },
+  { path: '/message', component: MessageQueueView, meta: { requiresAuth: true } }
 ]
 
 const router = createRouter({

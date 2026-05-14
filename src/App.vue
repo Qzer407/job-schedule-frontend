@@ -39,13 +39,14 @@ const handleCommand = (command: string) => {
     <el-container>
       <el-header>
         <div class="header-content">
-          <h1>分布式任务调度平台</h1>
+          <h1>Distributed Task Scheduler</h1>
           <div class="header-actions">
             <el-menu mode="horizontal" :default-active="activeMenu" router>
-              <el-menu-item index="/task">任务管理</el-menu-item>
-              <el-menu-item index="/workflow">工作流编排</el-menu-item>
-              <el-menu-item index="/dashboard">监控中心</el-menu-item>
-              <el-menu-item index="/alarm">告警配置</el-menu-item>
+              <el-menu-item index="/task">Task Management</el-menu-item>
+              <el-menu-item index="/workflow">Workflow</el-menu-item>
+              <el-menu-item index="/dashboard">Monitor</el-menu-item>
+              <el-menu-item index="/alarm">Alarm Config</el-menu-item>
+              <el-menu-item index="/message">Message Queue</el-menu-item>
             </el-menu>
             <el-dropdown @command="handleCommand">
               <span class="user-info">
@@ -55,7 +56,7 @@ const handleCommand = (command: string) => {
               </span>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+                  <el-dropdown-item command="logout">Logout</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>

@@ -200,3 +200,60 @@ export const getTaskLog = (id: number) => {
 export const deleteTaskLog = (id: number) => {
   return request.delete<ApiResponse<void>>(`/api/v1/logs/${id}`)
 }
+
+export interface MessageTask {
+  id: number
+  taskId: number
+  taskName: string
+  messageId: string
+  queueName: string
+  messageType: string
+  payload: string
+  status: number
+  delayTime: number
+  executeTime: string
+  retryCount: number
+  maxRetry: number
+  errorMessage: string
+  createTime: string
+  updateTime: string
+}
+
+export interface AsyncTaskRequest {
+  taskId?: number
+  taskName?: string
+  payload: string
+  maxRetry?: number
+}
+
+export interface DelayTaskRequest {
+  taskId?: number
+  taskName?: string
+  payload: string
+  delayTime: number
+  maxRetry?: number
+}
+
+export const submitAsyncTask = (data: AsyncTaskRequest) => {
+  return request.post<ApiResponse<{ messageId: string }>>('/api/v1/message/task', data)
+}
+
+export const submitDelayTask = (data: DelayTaskRequest) => {
+  return request.post<ApiResponse<{ messageId: string }>>('/api/v1/message/task/delay', data)
+}
+
+export const getMessageTaskList = (params?: PageParams & { status?: number }) => {
+  return request.get<ApiResponse<PageResult<MessageTask>>>('/api/v1/message/task', { params })
+}
+
+export const getMessageTask = (id: number) => {
+  return request.get<ApiResponse<MessageTask>>(`/api/v1/message/task/${id}`)
+}
+
+export const cancelMessageTask = (id: number) => {
+  return request.delete<ApiResponse<void>>(`/api/v1/message/task/${id}`)
+}
+
+export const retryMessageTask = (id: number) => {
+  return request.post<ApiResponse<void>>(`/api/v1/message/task/${id}/retry`)
+}
