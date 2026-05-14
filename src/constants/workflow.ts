@@ -1,0 +1,27 @@
+export const WORKFLOW_STATUS = {
+  DISABLED: 0,
+  ENABLED: 1,
+  PAUSED: 2,
+  TERMINATED: 3
+} as const
+
+export const WORKFLOW_STATUS_TEXT = {
+  [WORKFLOW_STATUS.DISABLED]: '停用',
+  [WORKFLOW_STATUS.ENABLED]: '启用',
+  [WORKFLOW_STATUS.PAUSED]: '暂停',
+  [WORKFLOW_STATUS.TERMINATED]: '终止'
+} as const
+
+export const EXECUTION_STATUS = {
+  PENDING: 0,
+  RUNNING: 1,
+  SUCCESS: 2,
+  FAILED: 3
+} as const
+
+export const EXECUTION_STATUS_TEXT = {
+  [EXECUTION_STATUS.PENDING]: '待执行',
+  [EXECUTION_STATUS.RUNNING]: '执行中',
+  [EXECUTION_STATUS.SUCCESS]: '成功',
+  [EXECUTION_STATUS.FAILED]: '失败'
+} as const
