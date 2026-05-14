@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { User, ArrowDown, Document, List, Connection, Clock, View, ChartLine } from '@element-plus/icons-vue'
+import { User, ArrowDown, Document, List, Connection, Clock, View, ChartLine, Monitor } from '@element-plus/icons-vue'
 import type { User as UserType } from '@/types'
 
 const route = useRoute()
@@ -79,6 +79,10 @@ const handleCommand = (command: string) => {
                 </template>
                 <el-menu-item index="/message">Message Queue</el-menu-item>
               </el-sub-menu>
+              <el-menu-item index="/cluster">
+                <el-icon><Monitor /></el-icon>
+                Cluster
+              </el-menu-item>
               <el-sub-menu index="6">
                 <template #title>
                   <el-icon><ChartLine /></el-icon>

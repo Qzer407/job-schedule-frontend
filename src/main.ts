@@ -16,6 +16,7 @@ import HealthCheckView from './views/operation/HealthCheckView.vue'
 import ReportView from './views/operation/ReportView.vue'
 import SubTaskView from './views/task/SubTaskView.vue'
 import WorkflowTemplateView from './views/workflow/WorkflowTemplateView.vue'
+import ClusterView from './views/cluster/ClusterView.vue'
 import type { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
@@ -28,6 +29,7 @@ const routes: RouteRecordRaw[] = [
   { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
   { path: '/alarm', component: AlarmConfigView, meta: { requiresAuth: true } },
   { path: '/message', component: MessageQueueView, meta: { requiresAuth: true } },
+  { path: '/cluster', component: ClusterView, meta: { requiresAuth: true } },
   { path: '/operation/executor', component: ExecutorGroupView, meta: { requiresAuth: true } },
   { path: '/operation/audit', component: AuditLogView, meta: { requiresAuth: true } },
   { path: '/operation/schedule', component: ScheduleLogView, meta: { requiresAuth: true } },

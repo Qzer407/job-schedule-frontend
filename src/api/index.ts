@@ -484,3 +484,129 @@ export const cancelMessageTask = (id: number) => {
 export const retryMessageTask = (id: number) => {
   return request.post<ApiResponse<void>>(`/api/v1/message/task/${id}/retry`)
 }
+
+// Cluster APIs
+export interface ClusterNode {
+  id: number
+  nodeId: string
+  nodeName: string
+  nodeIp: string
+  nodePort: number
+  status: number
+  role: string
+  lastHeartbeat: string
+  cpuLoad?: number
+  memoryUsage?: number
+  createTime: string
+  updateTime: string
+}
+
+export interface TaskShard {
+  id: number
+  taskId: number
+  shardKey?: string
+  assignedNodeId?: string
+  shardStatus: number
+  createTime: string
+  updateTime: string
+}
+
+export interface ClusterEvent {
+  id: number
+  eventType: string
+  eventData?: string
+  eventTime: string
+  sourceNode?: string
+  targetNode?: string
+  createTime: string
+}
+
+export interface FailureRecord {
+  id: number
+  nodeId: string
+  failureType: string
+  failureDetail?: string
+  recoveryStatus: number
+  failureTime: string
+  recoveryTime?: string
+  createTime: string
+  updateTime: string
+}
+
+export interface ClusterStatus {
+  totalNodes: number
+  onlineNodes: number
+  failedNodes: number
+}
+
+export interface NodeRegisterRequest {
+  nodeName: string
+  nodeIp: string
+  nodePort: number
+  role: string
+}
+
+export interface TaskAssignRequest {
+  taskId: number
+  nodeId: string
+}
+
+export interface TaskMigrateRequest {
+  targetNodeId: string
+}
+
+export const registerClusterNode = (data: NodeRegisterRequest) => {
+  return request.post<ApiResponse<string>>('/api/v1/cluster/nodes/register', data)
+}
+
+export const sendNodeHeartbeat = (nodeId: string) => {
+  return request.post<ApiResponse<void>>(`/api/v1/cluster/nodes/${nodeId}/heartbeat`)
+}
+
+export const getClusterNodes = () => {
+  return request.get<ApiResponse<ClusterNode[]>>('/api/v1/cluster/nodes')
+}
+
+export const getClusterNode = (nodeId: string) => {
+  return request.get<ApiResponse<ClusterNode>>(`/api/v1/cluster/nodes/${nodeId}`)
+}
+
+export const removeClusterNode = (nodeId: string) => {
+  return request.delete<ApiResponse<void>>(`/api/v1/cluster/nodes/${nodeId}`)
+}
+
+export const getTaskShards = () => {
+  return request.get<ApiResponse<TaskShard[]>>('/api/v1/cluster/shards')
+}
+
+export const assignTaskToNode = (data: TaskAssignRequest) => {
+  return request.post<ApiResponse<void>>('/api/v1/cluster/shards/assign', data)
+}
+
+export const rebalanceTaskShards = () => {
+  return request.post<ApiResponse<void>>('/api/v1/cluster/shards/rebalance')
+}
+
+export const migrateTaskToNode = (taskId: number, data: TaskMigrateRequest) => {
+  return request.post<ApiResponse<void>>(`/api/v1/cluster/shards/${taskId}/migrate`, data)
+}
+
+export const getClusterEvents = () => {
+  return request.get<ApiResponse<ClusterEvent[]>>('/api/v1/cluster/events')
+}
+
+export const getFailureRecords = () => {
+  return request.get<ApiResponse<FailureRecord[]>>('/api/v1/cluster/failures')
+}
+
+export const getFailureRecord = (id: number) => {
+  return request.get<ApiResponse<FailureRecord>>(`/api/v1/cluster/failures/${id}`)
+}
+
+export const recoverFailure = (id: number) => {
+  return request.post<ApiResponse<void>>(`/api/v1/cluster/failures/${id}/recover`)
+}
+
+export const getClusterStatus = () => {
+  return request.get<ApiResponse<string>>('/api/v1/cluster/status')
+}
