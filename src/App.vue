@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { User, ArrowDown, Document, List, Connection, Clock, View, ChartLine, Monitor } from '@element-plus/icons-vue'
+import { User, ArrowDown, Document, List, Connection, Clock, View, ChartLine, Monitor, Setting, Key } from '@element-plus/icons-vue'
 import type { User as UserType } from '@/types'
 
 const route = useRoute()
@@ -30,6 +30,8 @@ const handleCommand = (command: string) => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     router.push('/login')
+  } else if (command === 'profile') {
+    router.push('/profile')
   }
 }
 </script>
@@ -91,6 +93,21 @@ const handleCommand = (command: string) => {
                 <el-menu-item index="/operation/executor">Executor Group</el-menu-item>
                 <el-menu-item index="/operation/audit">Audit Log</el-menu-item>
               </el-sub-menu>
+              <el-sub-menu index="7">
+                <template #title>
+                  <el-icon><Setting /></el-icon>
+                  <span>System</span>
+                </template>
+                <el-menu-item index="/system/role">Role Management</el-menu-item>
+                <el-menu-item index="/system/tenant">Tenant Management</el-menu-item>
+              </el-sub-menu>
+              <el-sub-menu index="8">
+                <template #title>
+                  <el-icon><Key /></el-icon>
+                  <span>API</span>
+                </template>
+                <el-menu-item index="/api/key">API Key</el-menu-item>
+              </el-sub-menu>
             </el-menu>
             <el-dropdown @command="handleCommand">
               <span class="user-info">
@@ -100,6 +117,7 @@ const handleCommand = (command: string) => {
               </span>
               <template #dropdown>
                 <el-dropdown-menu>
+                  <el-dropdown-item command="profile">Profile</el-dropdown-item>
                   <el-dropdown-item command="logout">Logout</el-dropdown-item>
                 </el-dropdown-menu>
               </template>

@@ -610,3 +610,313 @@ export const recoverFailure = (id: number) => {
 export const getClusterStatus = () => {
   return request.get<ApiResponse<string>>('/api/v1/cluster/status')
 }
+
+// ==================== System Management APIs ====================
+
+// Role APIs
+export interface RoleCreateRequest {
+  roleName: string
+  roleCode: string
+  description?: string
+  status?: number
+}
+
+export interface RoleUpdateRequest {
+  roleName?: string
+  roleCode?: string
+  description?: string
+  status?: number
+}
+
+export const getRoleList = (params?: { current?: number; size?: number; roleName?: string; status?: number }) => {
+  return request.get<ApiResponse<PageResult<Role>>>('/api/v1/system/role/page', { params })
+}
+
+export const getAllRoles = () => {
+  return request.get<ApiResponse<Role[]>>('/api/v1/system/role/all')
+}
+
+export const getRole = (id: number) => {
+  return request.get<ApiResponse<Role>>(`/api/v1/system/role/${id}`)
+}
+
+export const createRole = (data: RoleCreateRequest) => {
+  return request.post<ApiResponse<Role>>('/api/v1/system/role', data)
+}
+
+export const updateRole = (id: number, data: RoleUpdateRequest) => {
+  return request.put<ApiResponse<Role>>(`/api/v1/system/role/${id}`, data)
+}
+
+export const deleteRole = (id: number) => {
+  return request.delete<ApiResponse<void>>(`/api/v1/system/role/${id}`)
+}
+
+export const assignRolePermissions = (roleId: number, permissionIds: number[]) => {
+  return request.post<ApiResponse<void>>(`/api/v1/system/role/${roleId}/permissions`, permissionIds)
+}
+
+export const getRolePermissions = (roleId: number) => {
+  return request.get<ApiResponse<number[]>>(`/api/v1/system/role/${roleId}/permissions`)
+}
+
+export const exportRoles = (params?: { roleName?: string; status?: number }) => {
+  const url = '/api/v1/system/role/export'
+  window.open(`${request.defaults.baseURL}${url}${params ? '?' + new URLSearchParams(params as any).toString() : ''}`)
+}
+
+// Permission APIs
+export interface PermissionCreateRequest {
+  permissionName: string
+  permissionCode: string
+  permissionType: string
+  parentId?: number
+  path?: string
+  icon?: string
+  sortOrder?: number
+  status?: number
+}
+
+export interface PermissionUpdateRequest {
+  permissionName?: string
+  permissionCode?: string
+  permissionType?: string
+  parentId?: number
+  path?: string
+  icon?: string
+  sortOrder?: number
+  status?: number
+}
+
+export const getPermissionList = (params?: { current?: number; size?: number; permissionName?: string; status?: number }) => {
+  return request.get<ApiResponse<PageResult<Permission>>>('/api/v1/system/permission/page', { params })
+}
+
+export const getAllPermissions = () => {
+  return request.get<ApiResponse<Permission[]>>('/api/v1/system/permission/all')
+}
+
+export const getPermissionTree = () => {
+  return request.get<ApiResponse<Permission[]>>('/api/v1/system/permission/tree')
+}
+
+export const getPermission = (id: number) => {
+  return request.get<ApiResponse<Permission>>(`/api/v1/system/permission/${id}`)
+}
+
+export const createPermission = (data: PermissionCreateRequest) => {
+  return request.post<ApiResponse<Permission>>('/api/v1/system/permission', data)
+}
+
+export const updatePermission = (id: number, data: PermissionUpdateRequest) => {
+  return request.put<ApiResponse<Permission>>(`/api/v1/system/permission/${id}`, data)
+}
+
+export const deletePermission = (id: number) => {
+  return request.delete<ApiResponse<void>>(`/api/v1/system/permission/${id}`)
+}
+
+export const getPermissionsByRole = (roleId: number) => {
+  return request.get<ApiResponse<Permission[]>>(`/api/v1/system/permission/role/${roleId}`)
+}
+
+export const getPermissionsByUser = (userId: number) => {
+  return request.get<ApiResponse<Permission[]>>(`/api/v1/system/permission/user/${userId}`)
+}
+
+// Tenant APIs
+export interface TenantCreateRequest {
+  tenantCode: string
+  tenantName: string
+  contactName?: string
+  contactPhone?: string
+  contactEmail?: string
+  status?: number
+  expireTime?: string
+  maxUsers?: number
+  maxTasks?: number
+}
+
+export interface TenantUpdateRequest {
+  tenantName?: string
+  contactName?: string
+  contactPhone?: string
+  contactEmail?: string
+  status?: number
+  expireTime?: string
+  maxUsers?: number
+  maxTasks?: number
+}
+
+export const getTenantList = (params?: { current?: number; size?: number; tenantName?: string; status?: number }) => {
+  return request.get<ApiResponse<PageResult<Tenant>>>('/api/v1/system/tenant/page', { params })
+}
+
+export const getAllTenants = () => {
+  return request.get<ApiResponse<Tenant[]>>('/api/v1/system/tenant/all')
+}
+
+export const getTenant = (id: number) => {
+  return request.get<ApiResponse<Tenant>>(`/api/v1/system/tenant/${id}`)
+}
+
+export const createTenant = (data: TenantCreateRequest) => {
+  return request.post<ApiResponse<Tenant>>('/api/v1/system/tenant', data)
+}
+
+export const updateTenant = (id: number, data: TenantUpdateRequest) => {
+  return request.put<ApiResponse<Tenant>>(`/api/v1/system/tenant/${id}`, data)
+}
+
+export const deleteTenant = (id: number) => {
+  return request.delete<ApiResponse<void>>(`/api/v1/system/tenant/${id}`)
+}
+
+export const exportTenants = () => {
+  const url = '/api/v1/system/tenant/export'
+  window.open(`${request.defaults.baseURL}${url}`)
+}
+
+// OAuth APIs
+export interface OAuthClientCreateRequest {
+  clientId: string
+  clientName: string
+  provider: string
+  clientSecret: string
+  redirectUri?: string
+  scope?: string
+  status?: number
+}
+
+export interface OAuthClientUpdateRequest {
+  clientName?: string
+  clientSecret?: string
+  redirectUri?: string
+  scope?: string
+  status?: number
+}
+
+export const getOAuthClientList = (params?: { current?: number; size?: number; clientName?: string; status?: number }) => {
+  return request.get<ApiResponse<PageResult<OAuthClient>>>('/api/v1/system/oauth/client/page', { params })
+}
+
+export const getAllOAuthClients = () => {
+  return request.get<ApiResponse<OAuthClient[]>>('/api/v1/system/oauth/client/all')
+}
+
+export const getOAuthClient = (id: number) => {
+  return request.get<ApiResponse<OAuthClient>>(`/api/v1/system/oauth/client/${id}`)
+}
+
+export const createOAuthClient = (data: OAuthClientCreateRequest) => {
+  return request.post<ApiResponse<OAuthClient>>('/api/v1/system/oauth/client', data)
+}
+
+export const updateOAuthClient = (id: number, data: OAuthClientUpdateRequest) => {
+  return request.put<ApiResponse<OAuthClient>>(`/api/v1/system/oauth/client/${id}`, data)
+}
+
+export const deleteOAuthClient = (id: number) => {
+  return request.delete<ApiResponse<void>>(`/api/v1/system/oauth/client/${id}`)
+}
+
+export const bindOAuthUser = (userId: number, data: { provider: string; openid: string; nickname?: string; avatar?: string; email?: string }) => {
+  return request.post<ApiResponse<OAuthUser>>(`/api/v1/system/oauth/user/${userId}/bind`, null, { params: data })
+}
+
+export const unbindOAuthUser = (userId: number, provider: string) => {
+  return request.delete<ApiResponse<void>>(`/api/v1/system/oauth/user/${userId}/bind/${provider}`)
+}
+
+export const getUserOAuthBindings = (userId: number) => {
+  return request.get<ApiResponse<OAuthUser[]>>(`/api/v1/system/oauth/user/${userId}/bindings`)
+}
+
+// ==================== API Management APIs ====================
+
+// ApiKey APIs
+export interface ApiKeyCreateRequest {
+  userId: number
+  keyName: string
+  permissions?: string
+  rateLimit?: number
+  expireTime?: string
+}
+
+export interface ApiKeyUpdateRequest {
+  keyName?: string
+  permissions?: string
+  rateLimit?: number
+  expireTime?: string
+  status?: number
+}
+
+export const getApiKeyList = (params?: { current?: number; size?: number; userId?: number; status?: number }) => {
+  return request.get<ApiResponse<PageResult<ApiKey>>>('/api/v1/system/apikey/page', { params })
+}
+
+export const getUserApiKeys = (userId: number) => {
+  return request.get<ApiResponse<ApiKey[]>>(`/api/v1/system/apikey/user/${userId}`)
+}
+
+export const getApiKey = (id: number) => {
+  return request.get<ApiResponse<ApiKey>>(`/api/v1/system/apikey/${id}`)
+}
+
+export const createApiKey = (data: ApiKeyCreateRequest) => {
+  return request.post<ApiResponse<ApiKey>>('/api/v1/system/apikey', data)
+}
+
+export const updateApiKey = (id: number, data: ApiKeyUpdateRequest) => {
+  return request.put<ApiResponse<ApiKey>>(`/api/v1/system/apikey/${id}`, data)
+}
+
+export const deleteApiKey = (id: number) => {
+  return request.delete<ApiResponse<void>>(`/api/v1/system/apikey/${id}`)
+}
+
+export const toggleApiKeyStatus = (id: number) => {
+  return request.put<ApiResponse<void>>(`/api/v1/system/apikey/${id}/toggle`)
+}
+
+export const regenerateApiKey = (id: number) => {
+  return request.post<ApiResponse<string>>(`/api/v1/system/apikey/${id}/regenerate`)
+}
+
+export const exportApiKeys = (params?: { userId?: number }) => {
+  const url = '/api/v1/system/apikey/export'
+  window.open(`${request.defaults.baseURL}${url}${params ? '?' + new URLSearchParams(params as any).toString() : ''}`)
+}
+
+// ApiLog APIs
+export const getApiLogList = (params?: { 
+  current?: number; 
+  size?: number; 
+  apiKeyId?: number; 
+  userId?: number; 
+  endpoint?: string; 
+  method?: string;
+  startTime?: string;
+  endTime?: string;
+}) => {
+  return request.get<ApiResponse<PageResult<ApiLog>>>('/api/v1/system/apilog/page', { params })
+}
+
+export const getApiLog = (id: number) => {
+  return request.get<ApiResponse<ApiLog>>(`/api/v1/system/apilog/${id}`)
+}
+
+export const deleteOldApiLogs = (before: string) => {
+  return request.delete<ApiResponse<void>>('/api/v1/system/apilog/old', { params: { before } })
+}
+
+// ==================== Profile API ====================
+export interface UpdatePasswordRequest {
+  userId: number
+  oldPassword: string
+  newPassword: string
+}
+
+export const updatePassword = (data: UpdatePasswordRequest) => {
+  return request.post<ApiResponse<void>>('/api/v1/auth/change-password', data)
+}

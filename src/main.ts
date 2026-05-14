@@ -17,6 +17,10 @@ import ReportView from './views/operation/ReportView.vue'
 import SubTaskView from './views/task/SubTaskView.vue'
 import WorkflowTemplateView from './views/workflow/WorkflowTemplateView.vue'
 import ClusterView from './views/cluster/ClusterView.vue'
+import RoleManagement from './views/system/RoleManagement.vue'
+import TenantManagement from './views/system/TenantManagement.vue'
+import ApiKeyManagement from './views/api/ApiKeyManagement.vue'
+import Profile from './views/profile/Profile.vue'
 import type { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
@@ -34,7 +38,11 @@ const routes: RouteRecordRaw[] = [
   { path: '/operation/audit', component: AuditLogView, meta: { requiresAuth: true } },
   { path: '/operation/schedule', component: ScheduleLogView, meta: { requiresAuth: true } },
   { path: '/operation/health', component: HealthCheckView, meta: { requiresAuth: true } },
-  { path: '/operation/report', component: ReportView, meta: { requiresAuth: true } }
+  { path: '/operation/report', component: ReportView, meta: { requiresAuth: true } },
+  { path: '/system/role', component: RoleManagement, meta: { requiresAuth: true } },
+  { path: '/system/tenant', component: TenantManagement, meta: { requiresAuth: true } },
+  { path: '/api/key', component: ApiKeyManagement, meta: { requiresAuth: true } },
+  { path: '/profile', component: Profile, meta: { requiresAuth: true } }
 ]
 
 const router = createRouter({
