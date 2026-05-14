@@ -9,16 +9,30 @@ import Dashboard from './views/monitor/Dashboard.vue'
 import WorkflowListView from './views/workflow/WorkflowListView.vue'
 import AlarmConfigView from './views/alarm/AlarmConfigView.vue'
 import MessageQueueView from './views/message/MessageQueueView.vue'
+import ExecutorGroupView from './views/operation/ExecutorGroupView.vue'
+import AuditLogView from './views/operation/AuditLogView.vue'
+import ScheduleLogView from './views/operation/ScheduleLogView.vue'
+import HealthCheckView from './views/operation/HealthCheckView.vue'
+import ReportView from './views/operation/ReportView.vue'
+import SubTaskView from './views/task/SubTaskView.vue'
+import WorkflowTemplateView from './views/workflow/WorkflowTemplateView.vue'
 import type { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
   { path: '/login', component: Login },
   { path: '/', redirect: '/task' },
   { path: '/task', component: TaskListView, meta: { requiresAuth: true } },
+  { path: '/task/sub', component: SubTaskView, meta: { requiresAuth: true } },
   { path: '/workflow', component: WorkflowListView, meta: { requiresAuth: true } },
+  { path: '/workflow/template', component: WorkflowTemplateView, meta: { requiresAuth: true } },
   { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
   { path: '/alarm', component: AlarmConfigView, meta: { requiresAuth: true } },
-  { path: '/message', component: MessageQueueView, meta: { requiresAuth: true } }
+  { path: '/message', component: MessageQueueView, meta: { requiresAuth: true } },
+  { path: '/operation/executor', component: ExecutorGroupView, meta: { requiresAuth: true } },
+  { path: '/operation/audit', component: AuditLogView, meta: { requiresAuth: true } },
+  { path: '/operation/schedule', component: ScheduleLogView, meta: { requiresAuth: true } },
+  { path: '/operation/health', component: HealthCheckView, meta: { requiresAuth: true } },
+  { path: '/operation/report', component: ReportView, meta: { requiresAuth: true } }
 ]
 
 const router = createRouter({

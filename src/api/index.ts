@@ -201,6 +201,233 @@ export const deleteTaskLog = (id: number) => {
   return request.delete<ApiResponse<void>>(`/api/v1/logs/${id}`)
 }
 
+// Executor Group APIs
+export interface ExecutorGroup {
+  id: number
+  groupName: string
+  groupCode: string
+  description: string
+  status: number
+  createTime: string
+  updateTime: string
+}
+
+export interface ExecutorGroupCreateRequest {
+  groupName: string
+  groupCode: string
+  description?: string
+  status?: number
+}
+
+export interface ExecutorGroupUpdateRequest {
+  groupName?: string
+  groupCode?: string
+  description?: string
+  status?: number
+}
+
+export const getExecutorGroupList = (params?: PageParams & { groupName?: string; status?: number }) => {
+  return request.get<ApiResponse<PageResult<ExecutorGroup>>>('/api/v1/executor-group', { params })
+}
+
+export const getExecutorGroup = (id: number) => {
+  return request.get<ApiResponse<ExecutorGroup>>(`/api/v1/executor-group/${id}`)
+}
+
+export const createExecutorGroup = (data: ExecutorGroupCreateRequest) => {
+  return request.post<ApiResponse<ExecutorGroup>>('/api/v1/executor-group', data)
+}
+
+export const updateExecutorGroup = (id: number, data: ExecutorGroupUpdateRequest) => {
+  return request.put<ApiResponse<ExecutorGroup>>(`/api/v1/executor-group/${id}`, data)
+}
+
+export const deleteExecutorGroup = (id: number) => {
+  return request.delete<ApiResponse<void>>(`/api/v1/executor-group/${id}`)
+}
+
+// Audit Log APIs
+export interface AuditLog {
+  id: number
+  userId: number
+  username: string
+  operation: string
+  module: string
+  description: string
+  requestMethod: string
+  requestUrl: string
+  requestParams: string
+  responseResult: string
+  ipAddress: string
+  status: number
+  costTime: number
+  errorMessage: string
+  createTime: string
+}
+
+export const getAuditLogList = (params?: PageParams & { module?: string; status?: number }) => {
+  return request.get<ApiResponse<PageResult<AuditLog>>>('/api/v1/audit-log', { params })
+}
+
+export const getAuditLog = (id: number) => {
+  return request.get<ApiResponse<AuditLog>>(`/api/v1/audit-log/${id}`)
+}
+
+// Schedule Log APIs
+export interface ScheduleLog {
+  id: number
+  taskId: number
+  taskName: string
+  scheduleTime: string
+  triggerType: string
+  status: number
+  errorMessage: string
+  costTime: number
+  createTime: string
+}
+
+export const getScheduleLogList = (params?: PageParams & { taskId?: number; status?: number }) => {
+  return request.get<ApiResponse<PageResult<ScheduleLog>>>('/api/v1/schedule-log', { params })
+}
+
+export const getScheduleLog = (id: number) => {
+  return request.get<ApiResponse<ScheduleLog>>(`/api/v1/schedule-log/${id}`)
+}
+
+// Health Check API
+export interface HealthStatus {
+  status: string
+  components: {
+    database?: { status: string; message?: string }
+    redis?: { status: string; message?: string }
+    xxlJob?: { status: string; message?: string }
+  }
+}
+
+export const getHealthStatus = () => {
+  return request.get<ApiResponse<HealthStatus>>('/api/v1/health')
+}
+
+// Report API
+export interface ExecutionReport {
+  totalExecutions: number
+  successRate: number
+  avgCostTime: number
+  executionsByDay: Array<{ date: string; count: number; successCount: number; failCount: number }>
+  topFailedTasks: Array<{ taskId: number; taskName: string; failCount: number }>
+}
+
+export const getExecutionReport = () => {
+  return request.get<ApiResponse<ExecutionReport>>('/api/v1/report/execution')
+}
+
+// SubTask APIs
+export interface SubTask {
+  id: number
+  parentTaskId: number
+  taskName: string
+  taskDesc: string
+  executeType: string
+  cronExpression: string
+  routeStrategy: string
+  executorHandler: string
+  executorParam: string
+  status: number
+  createTime: string
+  updateTime: string
+}
+
+export interface SubTaskCreateRequest {
+  taskName: string
+  taskDesc?: string
+  executeType?: string
+  cronExpression?: string
+  routeStrategy?: string
+  executorHandler?: string
+  executorParam?: string
+}
+
+export interface SubTaskUpdateRequest {
+  taskName?: string
+  taskDesc?: string
+  executeType?: string
+  cronExpression?: string
+  routeStrategy?: string
+  executorHandler?: string
+  executorParam?: string
+  status?: number
+}
+
+export const getSubTaskList = (parentTaskId: number, params?: PageParams) => {
+  return request.get<ApiResponse<PageResult<SubTask>>>(`/api/v1/sub-tasks`, { params: { ...params, parentTaskId } })
+}
+
+export const getSubTask = (id: number) => {
+  return request.get<ApiResponse<SubTask>>(`/api/v1/sub-tasks/${id}`)
+}
+
+export const createSubTask = (parentTaskId: number, data: SubTaskCreateRequest) => {
+  return request.post<ApiResponse<SubTask>>(`/api/v1/sub-tasks?parentTaskId=${parentTaskId}`, data)
+}
+
+export const updateSubTask = (id: number, data: SubTaskUpdateRequest) => {
+  return request.put<ApiResponse<SubTask>>(`/api/v1/sub-tasks/${id}`, data)
+}
+
+export const deleteSubTask = (id: number) => {
+  return request.delete<ApiResponse<void>>(`/api/v1/sub-tasks/${id}`)
+}
+
+// Workflow Template APIs
+export interface WorkflowTemplate {
+  id: number
+  templateName: string
+  templateType: string
+  description: string
+  templateData: string
+  createTime: string
+  updateTime: string
+}
+
+export interface WorkflowTemplateCreateRequest {
+  templateName: string
+  templateType: string
+  description?: string
+  templateData: string
+}
+
+export interface WorkflowTemplateUpdateRequest {
+  templateName?: string
+  templateType?: string
+  description?: string
+  templateData?: string
+}
+
+export const getWorkflowTemplateList = (params?: { templateType?: string }) => {
+  return request.get<ApiResponse<WorkflowTemplate[]>>('/api/v1/workflow-templates', { params })
+}
+
+export const getWorkflowTemplate = (id: number) => {
+  return request.get<ApiResponse<WorkflowTemplate>>(`/api/v1/workflow-templates/${id}`)
+}
+
+export const createWorkflowTemplate = (data: WorkflowTemplateCreateRequest) => {
+  return request.post<ApiResponse<WorkflowTemplate>>('/api/v1/workflow-templates', data)
+}
+
+export const updateWorkflowTemplate = (id: number, data: WorkflowTemplateUpdateRequest) => {
+  return request.put<ApiResponse<WorkflowTemplate>>(`/api/v1/workflow-templates/${id}`, data)
+}
+
+export const deleteWorkflowTemplate = (id: number) => {
+  return request.delete<ApiResponse<void>>(`/api/v1/workflow-templates/${id}`)
+}
+
+export const applyWorkflowTemplate = (id: number) => {
+  return request.post<ApiResponse<Workflow>>(`/api/v1/workflow-templates/${id}/apply`)
+}
+
+// Message Queue APIs
 export interface MessageTask {
   id: number
   taskId: number

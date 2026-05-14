@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { User, ArrowDown } from '@element-plus/icons-vue'
+import { User, ArrowDown, Document, List, Connection, Clock, View, ChartLine } from '@element-plus/icons-vue'
 import type { User as UserType } from '@/types'
 
 const route = useRoute()
@@ -42,11 +42,51 @@ const handleCommand = (command: string) => {
           <h1>Distributed Task Scheduler</h1>
           <div class="header-actions">
             <el-menu mode="horizontal" :default-active="activeMenu" router>
-              <el-menu-item index="/task">Task Management</el-menu-item>
-              <el-menu-item index="/workflow">Workflow</el-menu-item>
-              <el-menu-item index="/dashboard">Monitor</el-menu-item>
-              <el-menu-item index="/alarm">Alarm Config</el-menu-item>
-              <el-menu-item index="/message">Message Queue</el-menu-item>
+              <el-sub-menu index="1">
+                <template #title>
+                  <el-icon><Document /></el-icon>
+                  <span>Task</span>
+                </template>
+                <el-menu-item index="/task">Task List</el-menu-item>
+                <el-menu-item index="/task/sub">Sub-Task</el-menu-item>
+              </el-sub-menu>
+              <el-sub-menu index="2">
+                <template #title>
+                  <el-icon><List /></el-icon>
+                  <span>Workflow</span>
+                </template>
+                <el-menu-item index="/workflow">Workflow List</el-menu-item>
+                <el-menu-item index="/workflow/template">Template</el-menu-item>
+              </el-sub-menu>
+              <el-sub-menu index="3">
+                <template #title>
+                  <el-icon><View /></el-icon>
+                  <span>Monitor</span>
+                </template>
+                <el-menu-item index="/dashboard">Dashboard</el-menu-item>
+                <el-menu-item index="/operation/schedule">Schedule Log</el-menu-item>
+                <el-menu-item index="/operation/health">Health Check</el-menu-item>
+                <el-menu-item index="/operation/report">Report</el-menu-item>
+              </el-sub-menu>
+              <el-menu-item index="/alarm">
+                <el-icon><Connection /></el-icon>
+                Alarm
+              </el-menu-item>
+              <el-sub-menu index="5">
+                <template #title>
+                  <el-icon><Clock /></el-icon>
+                  <span>Message</span>
+                </template>
+                <el-menu-item index="/message">Message Queue</el-menu-item>
+              </el-sub-menu>
+              <el-sub-menu index="6">
+                <template #title>
+                  <el-icon><ChartLine /></el-icon>
+                  <span>Operation</span>
+                </template>
+                <el-menu-item index="/operation/executor">Executor Group</el-menu-item>
+                <el-menu-item index="/operation/audit">Audit Log</el-menu-item>
+              </el-sub-menu>
             </el-menu>
             <el-dropdown @command="handleCommand">
               <span class="user-info">
